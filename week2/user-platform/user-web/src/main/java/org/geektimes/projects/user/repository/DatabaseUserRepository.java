@@ -98,15 +98,6 @@ public class DatabaseUserRepository implements UserRepository{
 
     @Override
     public User getByName(String userName) {
-        try {
-            Statement statement =
-                    dbConnectionManager.getConnection().createStatement();
-            statement.execute(DBConnectionManager.CREATE_USERS_TABLE_DDL_SQL);
-        }catch (SQLException e){
-            if (!e.getMessage().contains("already exists in Schema 'APP'")){
-               // throw e;
-            }
-        }
         return executeQuery(
                 "SELECT id,name,password,email,phoneNumber FROM users WHERE name=?",
                 resultSet -> {
@@ -166,9 +157,14 @@ public class DatabaseUserRepository implements UserRepository{
                 }
 
                 // Boolean -> boolean
+//                String methodName = preparedStatementMethodMappings.get(argType);
+//                Method method = PreparedStatement.class.getMethod(methodName, wrapperType);
+//                method.invoke(preparedStatement, i + 1, args);
+
+                // Boolean -> boolean
                 String methodName = preparedStatementMethodMappings.get(argType);
-                Method method = PreparedStatement.class.getMethod(methodName, wrapperType);
-                method.invoke(preparedStatement, i + 1, args);
+                Method method = preparedStatement.getClass().getMethod(methodName, int.class, wrapperType);
+                method.invoke(preparedStatement, i + 1, arg);
             }
             ResultSet resultSet = preparedStatement.executeQuery();
             // 返回一个 POJO List -> ResultSet -> POJO List
