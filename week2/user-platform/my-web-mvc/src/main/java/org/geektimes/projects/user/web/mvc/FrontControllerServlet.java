@@ -51,6 +51,8 @@ public class FrontControllerServlet extends HttpServlet {
     private void initHandlerMethods(){
         for (Controller controller :
                 ServiceLoader.load(Controller.class)) {
+//        for (Controller controller : ComponentContext.getInstance().getControllers()) {
+//            injectComponents(controller, controller.getClass());
             Class<?> controllerClass = controller.getClass();
             Path pathFromClass = controllerClass.getAnnotation(Path.class);
             String requestPath = pathFromClass.value();
@@ -70,7 +72,30 @@ public class FrontControllerServlet extends HttpServlet {
                 controllersMapping.put(requestPath, controller);
             }
         }
+
+
     }
+
+//    private void injectComponents(Object component, Class<?> componentClass) {
+//        Arrays.stream(componentClass.getDeclaredFields())
+//                .filter(field -> {
+//                    return !Modifier.isStatic(field.getModifiers()) &&
+//                            field.isAnnotationPresent(Resource.class);
+//                }).forEach(field -> {
+//            Resource resource = field.getAnnotation(Resource.class);
+//            String name = resource.name();
+//            Object injectedObject =
+//                    ComponentContext.getInstance().getComponent(name);
+//            field.setAccessible(true);
+////            Object injectedObject = getComponent(name);
+//            try {
+//                //注入目标对象
+//                field.set(component, injectedObject);
+//            } catch (IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//    }
 
     /**
      * 获取处理方法中标注的 HTTP方法集合

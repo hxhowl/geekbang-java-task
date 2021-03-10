@@ -39,7 +39,7 @@ public class DatabaseUserRepository implements UserRepository{
 
     private final DBConnectionManager dbConnectionManager;
 
-    public DatabaseUserRepository() throws SQLException{
+    public DatabaseUserRepository() {
         this.dbConnectionManager = ComponentContext.getInstance().getComponent("bean/DBConnectionManager");
     }
 
@@ -49,7 +49,7 @@ public class DatabaseUserRepository implements UserRepository{
 
     @Override
     public boolean save(User user) {
-        return false;
+        return execute(INSERT_USER_DML_SQL, COMMON_EXCEPTION_HANDLER, user.getName(), user.getPassword(), user.getEmail(), user.getPhoneNumber());
     }
 
     @Override
@@ -133,6 +133,28 @@ public class DatabaseUserRepository implements UserRepository{
             System.out.println(columnLabel + fieldName + methodName);
             System.out.println(t);
         }
+    }
+
+    protected <T> boolean execute(String sql, Consumer<Throwable> exceptionHandler, Object... args) {
+        try {
+            Connection connection = getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            for (int i = 0; i < args.length; i++) {
+                Object arg = args[i];
+                Class<?> argType = arg.getClass();
+                Class<?> wrapperType = wrapperToPrimitive(argType);
+                if (wrapperType == null) {
+                    wrapperType = argType;
+                }
+                String methodName = preparedStatementMethodMappings.get(argType);
+                Method method = PreparedStatement.class.getMethod(methodName, int.class,wrapperType);
+                method.invoke(ps, i + 1, arg);
+            }
+            return ps.execute();
+        } catch (Throwable e) {
+            exceptionHandler.accept(e);
+        }
+        return false;
     }
 
     /**

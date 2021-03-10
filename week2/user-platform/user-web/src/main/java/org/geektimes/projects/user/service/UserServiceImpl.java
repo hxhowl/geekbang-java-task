@@ -1,6 +1,7 @@
 package org.geektimes.projects.user.service;
 
 import org.geektimes.projects.user.domain.User;
+import org.geektimes.projects.user.repository.DatabaseUserRepository;
 import org.geektimes.projects.user.repository.UserRepository;
 import org.geektimes.projects.user.sql.LocalTransactional;
 
@@ -21,6 +22,10 @@ public class UserServiceImpl implements UserService{
     @Resource(name = "bean/Validator")
     private Validator validator;
 
+    public UserServiceImpl() {
+        userRepository = new DatabaseUserRepository();
+    }
+
     @Override
     // 默认需要事务
     @LocalTransactional
@@ -31,10 +36,13 @@ public class UserServiceImpl implements UserService{
 //        transaction.begin();
 
         // 主调用
-        entityManager.persist(user);
+//        entityManager.persist(user);
 
         // 调用其他方法方法
-        update(user); // 涉及事务
+//        update(user); // 涉及事务
+        // 注入有问题，暂时不使用注入
+        userRepository.save(user);
+
         // register 方法和 update 方法存在于同一线程
         // register 方法属于 Outer 事务（逻辑）
         // update 方法属于 Inner 事务（逻辑）

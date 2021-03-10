@@ -1,9 +1,11 @@
 package org.geektimes.projects.user.domain;
 
+import org.geektimes.projects.user.validator.bean.validation.PhoneNumber;
+import org.hibernate.validator.constraints.Email;
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 import static javax.persistence.GenerationType.AUTO;
@@ -20,7 +22,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = AUTO)
-    @NotNull
+    @Min(0)
     private Long id;
 
     @Column
@@ -31,9 +33,11 @@ public class User {
     @Min(6)
     private String password;
 
+    @Email
     @Column
     private String email;
 
+    @PhoneNumber
     @Column
     private String phoneNumber;
 
