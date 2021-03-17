@@ -2,3 +2,6 @@
 week2/user-platform/.extract/
 week2/user-platform/my-web-mvc/target/my-web-mvc-v1-SNAPSHOT.jar
 week2/user-platform/my-web-mvc/target/
+.DS_Store
+week3/user-platform/.extract/
+week3/user-platform/my-web-mvc/target/
