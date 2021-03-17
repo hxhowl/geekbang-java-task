@@ -15,6 +15,12 @@ import java.lang.management.ManagementFactory;
 public class JMXServlet extends HttpServlet {
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        super.doGet(req, resp);
+    }
+
+    @Override
     public void init() throws ServletException {
         super.init();
         MBeanServer server = ManagementFactory.getPlatformMBeanServer();
