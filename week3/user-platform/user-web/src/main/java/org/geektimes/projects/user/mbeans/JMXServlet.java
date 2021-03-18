@@ -14,14 +14,19 @@ import java.lang.management.ManagementFactory;
  */
 public class JMXServlet extends HttpServlet {
 
+    private static final long serialVersionUID = 1L;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        System.out.println("doget in");
         super.doGet(req, resp);
+        System.out.println("doget out");
     }
 
     @Override
     public void init() throws ServletException {
+        System.out.println("init in");
         super.init();
         MBeanServer server = ManagementFactory.getPlatformMBeanServer();
         ObjectName configuration = null;
@@ -39,6 +44,6 @@ public class JMXServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-
+        System.out.println("init out");
     }
 }
