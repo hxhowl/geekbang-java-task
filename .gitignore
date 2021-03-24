@@ -6,3 +6,11 @@ week2/user-platform/my-web-mvc/target/
 week3/user-platform/.extract/
 week3/user-platform/my-web-mvc/target/
 week3/user-platform/user-web/target/
+week4/user-platform/mvnw
+week4/user-platform/mvnw.cmd
+*.iml
+week4/user-platform/.mvn/
+week4/user-platform/user-web/target/
+week4/user-platform/my-configuration/target/
+week4/user-platform/my-dependency-injection/target/
+week4/user-platform/my-dependency-injection1/target/
