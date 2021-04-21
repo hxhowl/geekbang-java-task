@@ -30,7 +30,7 @@ public class OauthController {
      */
     public static Route toIndex = (request, response) -> {
         response.cookie("passkey", "yes");    //过滤，防止用户恶意访问资源
-        response.redirect("/index.html");
+        response.redirect("/views/index.html");
         return null;
     };
 
@@ -41,7 +41,7 @@ public class OauthController {
         OauthGiteeConst.userCode = request.queryParams("code");                      //从URL中获取授权码
         OauthGiteeConst.token =
                 HttpUtils.tokenResponse(OauthGiteeConst.userCode);   //使用授权码获取到token令牌
-        response.redirect("/welcome.html");
+        response.redirect("/views/welcome.html");
         return null;
     };
 
